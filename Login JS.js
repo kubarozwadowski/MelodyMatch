@@ -1,9 +1,5 @@
 const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
-// Use only one of the following lines for redirectUrl
 const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
-// OR
-// const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/'; // your redirect URL - must be localhost URL and/or HTTPS
-
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
 
@@ -20,16 +16,14 @@ function redirectToSpotifyAuthorize() {
   window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
 }
 
-// Click handler
 function loginWithSpotifyClick() {
   redirectToSpotifyAuthorize();
 }
 
-// Function to fetch additional user data
-async function fetchUserData() {
+async function fetchUserData(userId) {
   try {
     // Fetch top genres
-    const topGenresResponse = await fetch('https://api.spotify.com/v1/me/top/artists?time_range=long_term', {
+    const topGenresResponse = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=long_term`, {
       headers: {
         'Authorization': 'Bearer ' + currentToken.access_token,
       },
@@ -38,7 +32,7 @@ async function fetchUserData() {
     const topGenres = topGenresData.items.map(artist => artist.genres).flat();
     
     // Fetch top artists
-    const topArtistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?time_range=long_term', {
+    const topArtistsResponse = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=long_term`, {
       headers: {
         'Authorization': 'Bearer ' + currentToken.access_token,
       },
@@ -47,7 +41,7 @@ async function fetchUserData() {
     const topArtists = topArtistsData.items.map(artist => artist.name);
 
     // Fetch top tracks
-    const topTracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=long_term', {
+    const topTracksResponse = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=long_term`, {
       headers: {
         'Authorization': 'Bearer ' + currentToken.access_token,
       },
@@ -74,7 +68,12 @@ async function fetchUserData() {
   }
 }
 
-// Existing code...
+function navigateToUserProfile() {
+  const userId = prompt('Enter user ID:'); // You can replace this with your UI mechanism
+  if (userId) {
+    fetchUserData(userId);
+  }
+}
 
 // Assume that somewhere in your code, after successful login, you call handleLoginCallback
 function handleLoginCallback() {
@@ -87,5 +86,3 @@ function handleLoginCallback() {
   // Fetch additional user data (top genres, top artists, top tracks, and display name)
   fetchUserData();
 }
-
-// Existing code...
