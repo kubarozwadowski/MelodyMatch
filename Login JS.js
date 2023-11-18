@@ -1,6 +1,6 @@
 const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
 // Use only one of the following lines for redirectUrl
-const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
+const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/'; // Updated redirect URL
 // OR
 // const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/'; // your redirect URL - must be localhost URL and/or HTTPS
 
