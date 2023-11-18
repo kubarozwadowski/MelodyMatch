@@ -32,7 +32,7 @@ async function fetchUserData(userId) {
     const userData = await userDataResponse.json();
 
     // Update the DOM with the fetched data
-    document.getElementById('profileImage').src = userData.images[0].url; // Assuming profile image is an array of images
+    document.getElementById('profileImage').src = userData.images[0].url;
     document.getElementById('personName').textContent = userData.display_name;
     document.getElementById('personBio').textContent = userData.bio;
 
