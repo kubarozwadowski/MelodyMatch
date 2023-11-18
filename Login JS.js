@@ -20,49 +20,27 @@ function loginWithSpotifyClick() {
   redirectToSpotifyAuthorize();
 }
 
+// Function to fetch additional user data
 async function fetchUserData(userId) {
   try {
-    // Fetch top genres
-    const topGenresResponse = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=long_term`, {
+    // Fetch user data using Spotify API
+    const userDataResponse = await fetch(`https://api.spotify.com/v1/users/${userId}`, {
       headers: {
         'Authorization': 'Bearer ' + currentToken.access_token,
       },
     });
-    const topGenresData = await topGenresResponse.json();
-    const topGenres = topGenresData.items.map(artist => artist.genres).flat();
-    
-    // Fetch top artists
-    const topArtistsResponse = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=long_term`, {
-      headers: {
-        'Authorization': 'Bearer ' + currentToken.access_token,
-      },
-    });
-    const topArtistsData = await topArtistsResponse.json();
-    const topArtists = topArtistsData.items.map(artist => artist.name);
+    const userData = await userDataResponse.json();
 
-    // Fetch top tracks
-    const topTracksResponse = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=long_term`, {
-      headers: {
-        'Authorization': 'Bearer ' + currentToken.access_token,
-      },
-    });
-    const topTracksData = await topTracksResponse.json();
-    const topTracks = topTracksData.items.map(track => track.name);
+    // Update the DOM with the fetched data
+    document.getElementById('profileImage').src = userData.profile_image_url;
+    document.getElementById('personName').textContent = userData.display_name;
+    document.getElementById('personBio').textContent = userData.bio;
+    document.getElementById('favoriteArtistImage').src = 'artist-image.jpg'; // Update with the actual image source
+    document.getElementById('favoriteArtist').textContent = 'Favorite Artist: ' + userData.favorite_artist;
+    document.getElementById('favoriteGenre').textContent = 'Favorite Genre: ' + userData.favorite_genre;
+    document.getElementById('favoriteSongImage').src = 'song-image.jpg'; // Update with the actual image source
+    document.getElementById('favoriteSong').textContent = 'Favorite Song: ' + userData.favorite_song;
 
-    // Fetch user profile (display name)
-    const userProfileResponse = await fetch('https://api.spotify.com/v1/me', {
-      headers: {
-        'Authorization': 'Bearer ' + currentToken.access_token,
-      },
-    });
-    const userProfileData = await userProfileResponse.json();
-    const displayName = userProfileData.display_name;
-
-    // Log or use the fetched data as needed
-    console.log('Top Genres:', topGenres);
-    console.log('Top Artists:', topArtists);
-    console.log('Top Tracks:', topTracks);
-    console.log('Display Name:', displayName);
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
