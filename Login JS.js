@@ -2,10 +2,6 @@ const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
 const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
-const topGenres = /* Array of top genres */;
-const topArtists = /* Array of top artists */;
-const topTracks = /* Array of top tracks */;
-const displayName = /* User's display name */;
 
 function redirectToSpotifyAuthorize() {
   const authUrl = new URL(authorizationEndpoint);
@@ -36,20 +32,21 @@ async function fetchUserData(userId) {
     const userData = await userDataResponse.json();
 
     // Update the DOM with the fetched data
-    document.getElementById('profileImage').src = userData.profile_image_url;
+    document.getElementById('profileImage').src = userData.images[0].url; // Assuming profile image is an array of images
     document.getElementById('personName').textContent = userData.display_name;
     document.getElementById('personBio').textContent = userData.bio;
-    document.getElementById('favoriteArtistImage').src = 'artist-image.jpg'; // Update with the actual image source
-    document.getElementById('favoriteArtist').textContent = 'Favorite Artist: ' + userData.favorite_artist;
+    
+    // Assuming favorite artist, genre, and song are properties provided by the Spotify API
+    document.getElementById('favoriteArtistImage').src = userData.favorite_artist.image_url;
+    document.getElementById('favoriteArtist').textContent = 'Favorite Artist: ' + userData.favorite_artist.name;
     document.getElementById('favoriteGenre').textContent = 'Favorite Genre: ' + userData.favorite_genre;
-    document.getElementById('favoriteSongImage').src = 'song-image.jpg'; // Update with the actual image source
-    document.getElementById('favoriteSong').textContent = 'Favorite Song: ' + userData.favorite_song;
+    document.getElementById('favoriteSongImage').src = userData.favorite_song.image_url;
+    document.getElementById('favoriteSong').textContent = 'Favorite Song: ' + userData.favorite_song.name;
 
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 }
-
 function navigateToUserProfile() {
   const userId = prompt('Enter user ID:'); // You can replace this with your UI mechanism
   if (userId) {
