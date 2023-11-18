@@ -1,6 +1,5 @@
-// app.js
 const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
-const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/'; // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/handleSpotifyResponse.html'; // Updated redirect URL
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
@@ -18,7 +17,6 @@ function redirectToSpotifyAuthorize() {
   window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
 }
 
-// Click handler
 function loginWithSpotifyClick() {
   redirectToSpotifyAuthorize();
 }
