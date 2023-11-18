@@ -24,26 +24,22 @@ function loginWithSpotifyClick() {
 }
 
 function handleLoginCallback() {
-    // Add your logic here to handle the callback after successful login
-    // For example, you might want to fetch the access token and user data
-  
-    // After processing, redirect to another page (e.g., index.html)
-    window.location.href = 'index.html';
-  }
-// After obtaining the authorization code, call handleLoginCallback
-const code = args.get('code');
-if (code) {
-  const token = await getToken(code);
-  currentToken.save(token);
+  // Add your logic here to handle the callback after successful login
+  // For example, you might want to fetch the access token and user data
 
-  // Remove code from URL so we can refresh correctly.
-  const url = new URL(window.location.href);
-  url.searchParams.delete("code");
-
-  const updatedUrl = url.search ? url.href : url.href.replace('?', '');
-  window.history.replaceState({}, document.title, updatedUrl);
-
-  // Call the function to handle the successful login and redirect
-  handleLoginCallback();
+  // After processing, redirect to another page (e.g., index.html)
+  window.location.href = 'index.html';
 }
-  
+
+// Check if the user is already logged in
+if (currentToken.access_token) {
+  // If logged in, handle the callback immediately
+  handleLoginCallback();
+} else {
+  // If not logged in, display the login button
+  // You can add this logic in your HTML or dynamically create the button here
+  const loginButton = document.createElement('button');
+  loginButton.textContent = 'Login with Spotify';
+  loginButton.addEventListener('click', loginWithSpotifyClick);
+  document.body.appendChild(loginButton);
+}
