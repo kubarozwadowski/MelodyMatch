@@ -1,19 +1,25 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify Login</title>
+  <title>Handling Spotify Response</title>
+  <script>
+    window.onload = function() {
+      // Parse the URL parameters to get the authorization code
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+
+      if (code) {
+        // If there's a code in the URL, redirect to mainPage.html
+        window.location.href = 'mainPage.html';
+      } else {
+        // Handle error or direct user back to login page
+        window.location.href = 'index.html'; // Assuming index.html is your login page
+      }
+    };
+  </script>
 </head>
-
 <body>
-  <div id="main">
-    <button onclick="loginWithSpotifyClick()">Login with Spotify</button>
-  </div>
-
-  <script src="Login JS.js"></script>
+  <p>Processing Spotify login...</p>
 </body>
-
 </html>
