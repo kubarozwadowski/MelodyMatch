@@ -36,7 +36,7 @@ async function fetchUserData(userId) {
     document.getElementById('personName').textContent = userData.display_name;
     document.getElementById('personBio').textContent = userData.bio;
 
-    // Assuming top genres, artists, and tracks are properties provided by the Spotify API
+    // Assuming top genres, artists, and tracks are arrays of strings
     updateList('topGenresList', userData.top_genres);
     updateList('topArtistsList', userData.top_artists);
     updateList('topSongsList', userData.top_tracks);
@@ -54,17 +54,12 @@ function updateList(listId, items) {
   items.forEach(item => {
     const listItem = document.createElement('li');
     listItem.classList.add('list-group-item');
-    listItem.textContent = item; // Assuming items are strings, modify as needed
+    listItem.textContent = item;
     list.appendChild(listItem);
   });
 }
 
-function navigateToUserProfile() {
-  const userId = prompt('Enter user ID:'); // You can replace this with your UI mechanism
-  if (userId) {
-    fetchUserData(userId);
-  }
-}
+// Existing code...
 
 // Assume that somewhere in your code, after successful login, you call handleLoginCallback
 function handleLoginCallback() {
@@ -77,3 +72,4 @@ function handleLoginCallback() {
   // Fetch additional user data (top genres, top artists, top tracks, and display name)
   fetchUserData();
 }
+
