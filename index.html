@@ -3,24 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Handling Spotify Response</title>
-  <script>
-    function handleSpotifyResponse() {
-      // Parse the URL parameters to get the authorization code
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
-
-      if (code) {
-        // If there's a code in the URL, redirect to mainPage.html
-        window.location.href = 'mainPage.html';
-      } else {
-        // Handle error or direct user back to login page
-        window.location.href = 'index.html'; // Assuming index.html is your login page
-      }
-    };
-  </script>
+  <script src="Login JS.js"></script> <!-- Make sure this path is correct -->
 </head>
 <body>
   <p>Click the button to process Spotify login:</p>
-  <button onclick="handleSpotifyResponse()">Process Login</button>
+  <!-- Update the onclick attribute to call the correct function -->
+  <button onclick="loginWithSpotifyClick()">Login with Spotify</button>
 </body>
 </html>
