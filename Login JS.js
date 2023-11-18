@@ -24,6 +24,7 @@ function loginWithSpotifyClick() {
 async function fetchUserData(userId) {
   try {
     // Fetch user data using Spotify API
+    console.log("Hello test");
     const userDataResponse = await fetch(`https://api.spotify.com/v1/users/${userId}`, {
       headers: {
         'Authorization': 'Bearer ' + currentToken.access_token,
