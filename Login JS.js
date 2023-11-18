@@ -20,7 +20,14 @@ function redirectToSpotifyAuthorize() {
 
 // Click handler
 function loginWithSpotifyClick() {
-  redirectToSpotifyAuthorize();
+  // Check if the user is already logged in
+  if (currentToken.access_token) {
+    // If logged in, handle the callback immediately
+    handleLoginCallback();
+  } else {
+    // If not logged in, initiate the Spotify login process
+    redirectToSpotifyAuthorize();
+  }
 }
 
 function handleLoginCallback() {
@@ -31,15 +38,8 @@ function handleLoginCallback() {
   window.location.href = 'index.html';
 }
 
-// Check if the user is already logged in
-if (currentToken.access_token) {
-  // If logged in, handle the callback immediately
-  handleLoginCallback();
-} else {
-  // If not logged in, display the login button
-  // You can add this logic in your HTML or dynamically create the button here
-  const loginButton = document.createElement('button');
-  loginButton.textContent = 'Login with Spotify';
-  loginButton.addEventListener('click', loginWithSpotifyClick);
-  document.body.appendChild(loginButton);
-}
+// Create the login button
+const loginButton = document.createElement('button');
+loginButton.textContent = 'Login with Spotify';
+loginButton.addEventListener('click', loginWithSpotifyClick);
+document.body.appendChild(loginButton);
