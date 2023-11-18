@@ -35,18 +35,30 @@ async function fetchUserData(userId) {
     document.getElementById('profileImage').src = userData.images[0].url; // Assuming profile image is an array of images
     document.getElementById('personName').textContent = userData.display_name;
     document.getElementById('personBio').textContent = userData.bio;
-    
-    // Assuming favorite artist, genre, and song are properties provided by the Spotify API
-    document.getElementById('favoriteArtistImage').src = userData.favorite_artist.image_url;
-    document.getElementById('favoriteArtist').textContent = 'Favorite Artist: ' + userData.favorite_artist.name;
-    document.getElementById('favoriteGenre').textContent = 'Favorite Genre: ' + userData.favorite_genre;
-    document.getElementById('favoriteSongImage').src = userData.favorite_song.image_url;
-    document.getElementById('favoriteSong').textContent = 'Favorite Song: ' + userData.favorite_song.name;
+
+    // Assuming top genres, artists, and tracks are properties provided by the Spotify API
+    updateList('topGenresList', userData.top_genres);
+    updateList('topArtistsList', userData.top_artists);
+    updateList('topSongsList', userData.top_tracks);
 
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
 }
+
+// Function to update a list in the DOM
+function updateList(listId, items) {
+  const list = document.getElementById(listId);
+  list.innerHTML = ''; // Clear existing items
+
+  items.forEach(item => {
+    const listItem = document.createElement('li');
+    listItem.classList.add('list-group-item');
+    listItem.textContent = item; // Assuming items are strings, modify as needed
+    list.appendChild(listItem);
+  });
+}
+
 function navigateToUserProfile() {
   const userId = prompt('Enter user ID:'); // You can replace this with your UI mechanism
   if (userId) {
