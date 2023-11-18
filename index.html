@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Handling Spotify Response</title>
   <script>
-    window.onload = function() {
+    function handleSpotifyResponse() {
       // Parse the URL parameters to get the authorization code
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
@@ -20,6 +20,7 @@
   </script>
 </head>
 <body>
-  <p>Processing Spotify login...</p>
+  <p>Click the button to process Spotify login:</p>
+  <button onclick="handleSpotifyResponse()">Process Login</button>
 </body>
 </html>
