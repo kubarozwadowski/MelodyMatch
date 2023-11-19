@@ -104,3 +104,4 @@ function handleLoginCallback() {
 }
 function getData() {
   fetch("localhost:8080");
+}
