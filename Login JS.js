@@ -1,9 +1,8 @@
-const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
-const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
-const authorizationEndpoint = "https://accounts.spotify.com/authorize";
+const clientId = 'dd8233fe305a40698c7596d33b5232ef';
+const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html';
+const authorizationEndpoint = 'https://accounts.spotify.com/authorize';
 const scope = 'user-read-private user-read-email';
 const backendUrl = 'https://shimmering-shortbread-025f27.netlify.app/';
-// Server-side endpoint for token exchange
 const tokenExchangeEndpoint = 'https://accounts.spotify.com/api/token';
 
 // Function to handle authorization callback
@@ -14,14 +13,13 @@ async function handleAuthorizationCallback() {
   console.log('Authorization code:', code);
 
   if (code) {
-    console.log('Authorization code:', code);
     // Exchange the authorization code for an access token
     const accessToken = await exchangeCodeForToken(code);
     console.log('Access token:', accessToken);
 
     // Save access token and code to cookies
-    setCookie('accessToken', accessToken, 7);  // Set the expiration time as needed
-    setCookie('authorizationCode', code, 7);   // Set the expiration time as needed
+    setCookie('accessToken', accessToken, 7); // Set the expiration time as needed
+    setCookie('authorizationCode', code, 7); // Set the expiration time as needed
 
     // Fetch user data and update the DOM
     fetchUserData(accessToken);
@@ -33,17 +31,18 @@ async function handleAuthorizationCallback() {
   }
 }
 
-
-
 // Function to exchange the authorization code for an access token
 async function exchangeCodeForToken(code) {
   const response = await fetch(tokenExchangeEndpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({
+    body: new URLSearchParams({
+      grant_type: 'authorization_code',
       code: code,
+      redirect_uri: redirectUrl,
+      client_id: clientId,
     }),
   });
 
@@ -70,6 +69,8 @@ function getCookie(name) {
   }
   return null;
 }
+
+// ... (rest of your code remains the same)
 
 
 
