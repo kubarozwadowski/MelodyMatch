@@ -5,17 +5,19 @@
   <title>Handling Spotify Response</title>
   <script src="Login JS.js"></script> <!-- Make sure this path is correct -->
 
+  <!-- Importing Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+
   <!-- Adding CSS styles -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
     body {
       background-color: #555; /* Lighter grey background */
       color: black; /* Black text for better visibility */
       text-align: center; /* Center aligns all content in the body */
-      font-family: 'Roboto', sans-serif; /* Roboto font for a curvy, minimalistic look */
-      padding-top: 50px; /* Moves content downwards */
-      font-size: 20px; /* Larger text size */
+      font-family: 'Cabin', sans-serif; /* Cabin font for a clean, modern look */
+      padding-top: 30px; /* Adjusts spacing */
+      font-size: 24px; /* Increased text size */
+      font-weight: bold; /* Bold text */
     }
     .login-button {
       background-color: purple; /* Purple background */
@@ -26,17 +28,19 @@
       cursor: pointer; /* Pointer cursor on hover */
       border-radius: 5px; /* Rounded corners */
       display: block; /* Make the button a block element */
-      margin: 0 auto 20px; /* Center the button and add space below */
+      margin: 20px auto; /* Center the button and add space around */
     }
-    .spotify-logo {
-      width: 200px; /* Larger size */
+    .spotify-logo, .melody-match-logo {
+      width: 200px; /* Image size */
       height: auto; /* Maintain aspect ratio */
       display: block; /* Make the image a block element */
-      margin: 0 auto; /* Center the image */
+      margin: 20px auto; /* Center the image and add space around */
     }
   </style>
 </head>
 <body>
+  <!-- Melody Match logo image -->
+  <img src="MelodyMatchLogo.png" alt="Melody Match Logo" class="melody-match-logo">
   <p>Click the button to allow Spotify to login:</p>
   <!-- Add class to the button -->
   <button class="login-button" onclick="loginWithSpotifyClick()">Login with Spotify</button>
