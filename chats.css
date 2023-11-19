@@ -1,0 +1,46 @@
+body {
+    font-family: 'Cabin', sans-serif; /* Cabin font for a clean, modern look */
+    background-color: #555;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.email-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.email-list {
+    list-style: none;
+    padding: 0;
+}
+
+.email-list li {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.email-list li:last-child {
+    border-bottom: none;
+}
+.redirect-button {
+    position: fixed; /* Changed to fixed to stick at the bottom */
+    bottom: 20px; /* Distance from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust horizontal centering */
+    color: purple; /* Color of the icon */
+    font-size: 50px; /* Increased size of the icon */
+    text-decoration: none; /* Optional: removes underline from the link */
+}
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
