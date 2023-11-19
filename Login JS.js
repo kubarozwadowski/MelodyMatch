@@ -54,15 +54,27 @@ async function exchangeCodeForToken(code) {
 function setCookie(name, value, days) {
   const expires = new Date();
   expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-  console.log (document.cookie)
+
+  const cookieOptions = {
+    expires: expires.toUTCString(),
+    path: '/',
+    secure: window.location.protocol === 'https:',
+    sameSite: 'None', // Update this based on your needs
+  };
+
+  document.cookie = `${name}=${value}; ${Object.entries(cookieOptions)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('; ')}`;
+  console.log(document.cookie);
 }
+
 
 // Function to get data from cookies
 function getCookie(name) {
-  const keyValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  const keyValue = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
   return keyValue ? keyValue[2] : null;
 }
+
 
 // Function to fetch Spotify data and log to the console
 async function fetchSpotifyData() {
