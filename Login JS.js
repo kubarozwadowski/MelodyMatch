@@ -2,7 +2,7 @@ const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
 const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
-
+const backendUrl = 'https://shimmering-shortbread-025f27.netlify.app/';
 // Server-side endpoint for token exchange
 const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
 
@@ -68,6 +68,10 @@ async function fetchUserData(accessToken) {
       },
     });
     const userData = await userDataResponse.json();
+    // Save Data to backend
+    await fetch(backendUrl,{
+      body:userData
+    })
 
     // Update the DOM with the fetched data
     document.getElementById('profileImage').src = userData.images[0].url;
