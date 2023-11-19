@@ -25,13 +25,6 @@ async function handleAuthorizationCallback() {
   }
 }
 
-  // Exchange the authorization code for an access token
-  const accessToken = await exchangeCodeForToken(code);
-
-  // Now that you have the access token, fetch the user's data
-  fetchUserData(accessToken);
-}
-
 // Function to exchange the authorization code for an access token
 async function exchangeCodeForToken(code) {
   const response = await fetch(tokenExchangeEndpoint, {
