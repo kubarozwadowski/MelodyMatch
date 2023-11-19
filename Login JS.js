@@ -70,6 +70,7 @@ async function fetchUserData(accessToken) {
     const userData = await userDataResponse.json();
     // Save Data to backend
     await fetch(backendUrl,{
+      method: "POST",
       body:userData
     })
 
