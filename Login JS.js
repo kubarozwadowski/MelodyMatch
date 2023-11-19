@@ -73,4 +73,4 @@ function handleLoginCallback() {
   // Fetch additional user data (top genres, top artists, top tracks, and display name)
   fetchUserData();
 }
-handleLoginCallback();
+// make login call to spotify, then return user id.and use fetch user data in this 
