@@ -151,17 +151,24 @@ async function fetchUserData(accessToken) {
         'Authorization': 'Bearer ' + accessToken,
       },
     });
+
+    if (!userDataResponse.ok) {
+      throw new Error('Failed to fetch user data from Spotify API');
+    }
+
     const userData = await userDataResponse.json();
+
+    // Save ID and name to cookies
+    setCookie('spotifyUserId', userData.id, 7);
+    setCookie('spotifyUserName', userData.display_name || 'Anonymous', 7);
+
     // Save Data to backend
-    await fetch(backendUrl,{
-      method: "POST",
-      body:userData
-    })
+    saveSpotifyDataToBackend(userData);
 
     // Update the DOM with the fetched data
     document.getElementById('profileImage').src = userData.images[0].url;
-    document.getElementById('personName').textContent = userData.display_name;
-    document.getElementById('personBio').textContent = userData.bio;
+    document.getElementById('personName').textContent = userData.display_name || 'Anonymous';
+    document.getElementById('personBio').textContent = userData.bio || 'No bio available';
 
     // Assuming top genres, artists, and tracks are arrays of strings
     updateList('topGenresList', userData.top_genres);
@@ -172,6 +179,7 @@ async function fetchUserData(accessToken) {
     console.error('Error fetching user data:', error);
   }
 }
+
 
 // Function to update a list in the DOM
 function updateList(listId, items) {
