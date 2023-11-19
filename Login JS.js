@@ -18,8 +18,20 @@ async function handleAuthorizationCallback() {
     const accessToken = await exchangeCodeForToken(code);
     console.log('Access token:', accessToken);
 
-    // Now that you have the access token, fetch the user's data
+    // Save access token and code to cookie
+    setCookie('accessToken', accessToken, 7);
+    setCookie('authorizationCode', code, 7);
+
+    // Fetch user data and update the DOM
     fetchUserData(accessToken);
+
+    /**
+    What you should do next:
+    - add a button to fetch Spotify data (make sure this works)
+    - in the same button, console.log the data from Spotify API
+    - call your backend and save the Spotify data to the backend
+    - finally, call the backend to get users and display user data
+    **/
   } else {
     console.error('No authorization code found in the URL.');
   }
@@ -39,6 +51,78 @@ async function exchangeCodeForToken(code) {
 
   const data = await response.json();
   return data.access_token;
+}
+
+function setCookie(name, value, days) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+// Function to get data from cookies
+function getCookie(name) {
+  const keyValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  return keyValue ? keyValue[2] : null;
+}
+
+// Function to fetch Spotify data and log to the console
+async function fetchSpotifyData() {
+  const accessToken = getCookie('accessToken');
+
+  if (accessToken) {
+    const userDataResponse = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+      },
+    });
+
+    const userData = await userDataResponse.json();
+    console.log('Spotify Data:', userData);
+  } else {
+    console.error('Access token not found.');
+  }
+}
+
+// Function to save Spotify data to the backend
+async function saveSpotifyDataToBackend(userData) {
+  try {
+    // Save Data to backend
+    await fetch(backendUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    // Update the DOM with the fetched data
+    // ...
+
+  } catch (error) {
+    console.error('Error saving user data to the backend:', error);
+  }
+}
+
+// Function to get users from the backend
+async function getUsersFromBackend() {
+  try {
+    const response = await fetch(backendUrl);
+    const usersData = await response.json();
+
+    // Display user data on the frontend as needed
+    console.log('Users Data from Backend:', usersData);
+
+  } catch (error) {
+    console.error('Error fetching users from the backend:', error);
+  }
+}
+
+// Other functions in your code...
+
+// Assume that somewhere in your code, after successful login, you call handleAuthorizationCallback
+function handleLoginCallback() {
+  // Handle the callback after successful login (e.g., token exchange)
+  handleAuthorizationCallback();
 }
 
 function redirectToSpotifyAuthorize() {
