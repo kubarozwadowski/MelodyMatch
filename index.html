@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <title>Handling Spotify Response</title>
   <script src="Login JS.js"></script> <!-- Make sure this path is correct -->
+
+  <!-- Adding CSS styles -->
+  <style>
+    body {
+      text-align: center; /* Center aligns all content in the body */
+    }
+    .login-button {
+      background-color: purple; /* Purple background */
+      color: white; /* White text */
+      padding: 15px 32px; /* Larger size */
+      font-size: 16px; /* Font size */
+      border: none; /* No border */
+      cursor: pointer; /* Pointer cursor on hover */
+      border-radius: 5px; /* Rounded corners */
+    }
+  </style>
 </head>
 <body>
   <p>Click the button to allow Spotify to login:</p>
-  <!-- Update the onclick attribute to call the correct function -->
-  <button onclick="loginWithSpotifyClick()">Login with Spotify</button>
+  <!-- Add class to the button -->
+  <button class="login-button" onclick="loginWithSpotifyClick()">Login with Spotify</button>
 </body>
 </html>
