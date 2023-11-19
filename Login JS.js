@@ -51,16 +51,26 @@ async function exchangeCodeForToken(code) {
   return data.access_token;
 }
 
+// Function to Set a Cookie
 function setCookie(name, value, days) {
-  Cookies.set(name, value, { expires: days, secure: true, sameSite: 'None' });
-  console.log(Cookies.get());
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  const expiresString = `expires=${expires.toUTCString()}`;
+  document.cookie = `${name}=${value};${expiresString};path=/`;
 }
 
-
-// Function to get data from cookies
+// Function to Get a Cookie
 function getCookie(name) {
-  return Cookies.get(name);
+  const cookieArray = document.cookie.split(';');
+  for (const cookie of cookieArray) {
+    const [cookieName, cookieValue] = cookie.trim().split('=');
+    if (cookieName === name) {
+      return cookieValue;
+    }
+  }
+  return null;
 }
+
 
 
 
