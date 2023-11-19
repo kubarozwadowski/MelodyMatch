@@ -108,5 +108,5 @@ function handleLoginCallback() {
   handleAuthorizationCallback();
 }
 function getData() {
-  fetch("localhost:8080");
+  fetch(backendUrl);
 }
