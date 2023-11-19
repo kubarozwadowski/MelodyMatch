@@ -4,7 +4,7 @@ const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
 const backendUrl = 'https://shimmering-shortbread-025f27.netlify.app/';
 // Server-side endpoint for token exchange
-const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
+const tokenExchangeEndpoint = 'https://accounts.spotify.com/api/token';
 
 // Function to handle authorization callback
 async function handleAuthorizationCallback() {
