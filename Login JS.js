@@ -46,14 +46,17 @@ async function exchangeCodeForToken(code) {
 }
 
 // Function to set a cookie
-function setCookie(name, value) {
-  document.cookie = `${name}=${value}; path=/`;
+function setCookie(name, value, days) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 }
 
 // Function to get a cookie
 function getCookie(name) {
-  const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-  return cookieValue ? cookieValue.pop() : null;
+  const cookies = document.cookie.split(';').map(cookie => cookie.trim().split('='));
+  const cookie = cookies.find(cookie => cookie[0] === name);
+  return cookie ? cookie[1] : null;
 }
 
 
