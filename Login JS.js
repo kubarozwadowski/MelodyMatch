@@ -13,18 +13,17 @@ async function handleAuthorizationCallback() {
 
   if (code) {
     console.log('Authorization code:', code);
-    const accessToken = await exchangeCodeForToken(code);
-    setAccessToken(accessToken);
+    const _accessToken = await exchangeCodeForToken(code);
+    setAccessToken(_accessToken);
 
     // Exchange the authorization code for an access token
-    const accessToken = await exchangeCodeForToken(code);
-    console.log('Access token:', accessToken);
+    console.log('Access token:', _accessToken);
 
     // Save access token to cookies
-    setCookie('accessToken', accessToken);
+    setCookie('accessToken', _accessToken);
 
     // Fetch user data and update the DOM
-    fetchUserData(accessToken);
+    fetchUserData(_accessToken);
 
     // Fetch additional Spotify data and save it to the backend
     fetchSpotifyData();
