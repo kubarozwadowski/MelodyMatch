@@ -1,4 +1,4 @@
- const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
+const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
 const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
