@@ -2,7 +2,38 @@ const clientId = 'dd8233fe305a40698c7596d33b5232ef'; // your clientId
 const redirectUrl = 'https://kubarozwadowski.github.io/MelodyMatch/mainPage.html'; // Updated redirect URL
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const scope = 'user-read-private user-read-email';
-console.log("Start");
+
+// Server-side endpoint for token exchange
+const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
+
+// Function to handle authorization callback
+async function handleAuthorizationCallback() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+
+  // Exchange the authorization code for an access token
+  const accessToken = await exchangeCodeForToken(code);
+
+  // Now that you have the access token, fetch the user's data
+  fetchUserData(accessToken);
+}
+
+// Function to exchange the authorization code for an access token
+async function exchangeCodeForToken(code) {
+  const response = await fetch(tokenExchangeEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      code: code,
+    }),
+  });
+
+  const data = await response.json();
+  return data.access_token;
+}
+
 function redirectToSpotifyAuthorize() {
   const authUrl = new URL(authorizationEndpoint);
   const params = {
@@ -21,13 +52,12 @@ function loginWithSpotifyClick() {
 }
 
 // Function to fetch additional user data
-async function fetchUserData(userId) {
+async function fetchUserData(accessToken) {
   try {
     // Fetch user data using Spotify API
-    console.log("Hello test");
-    const userDataResponse = await fetch(`https://api.spotify.com/v1/users/${userId}`, {
+    const userDataResponse = await fetch('https://api.spotify.com/v1/me', {
       headers: {
-        'Authorization': 'Bearer ' + currentToken.access_token,
+        'Authorization': 'Bearer ' + accessToken,
       },
     });
     const userData = await userDataResponse.json();
@@ -60,17 +90,8 @@ function updateList(listId, items) {
   });
 }
 
-// Existing code...
-
-// Assume that somewhere in your code, after successful login, you call handleLoginCallback
+// Assume that somewhere in your code, after successful login, you call handleAuthorizationCallback
 function handleLoginCallback() {
-  // Add your logic here to handle the callback after successful login
-  // For example, you might want to fetch the access token and user data
-
-  // After processing, redirect to another page (e.g., index.html)
-  window.location.href = 'index.html';
-
-  // Fetch additional user data (top genres, top artists, top tracks, and display name)
-  fetchUserData();
+  // Handle the callback after successful login (e.g., token exchange)
+  handleAuthorizationCallback();
 }
-// make login call to spotify, then return user id.and use fetch user data in this 
