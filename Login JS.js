@@ -8,22 +8,30 @@ const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
 
 // Function to handle authorization callback
 async function handleAuthorizationCallback() {
-  // ...
+  console.log('Handling authorization callback...');
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
 
-  // Fetch user data and update the DOM
-  const accessToken = await exchangeCodeForToken(code);
-  console.log('Access token:', accessToken);
+  if (code) {
+    console.log('Authorization code:', code);
+    // Exchange the authorization code for an access token
+    const accessToken = await exchangeCodeForToken(code);
+    console.log('Access token:', accessToken);
 
-  // Save access token and code to cookie
-  setCookie('accessToken', accessToken, 7);
-  setCookie('authorizationCode', code, 7);
+    // Save access token and code to cookies
+    setCookie('accessToken', accessToken, 7);  // Set the expiration time as needed
+    setCookie('authorizationCode', code, 7);   // Set the expiration time as needed
 
-  // Fetch user data and update the DOM
-  fetchUserData(accessToken);
+    // Fetch user data and update the DOM
+    fetchUserData(accessToken);
 
-  // Fetch additional Spotify data and save it to the backend
-  fetchSpotifyData();
+    // Fetch additional Spotify data and save it to the backend
+    fetchSpotifyData();
+  } else {
+    console.error('No authorization code found in the URL.');
+  }
 }
+
 
 
 // Function to exchange the authorization code for an access token
@@ -56,6 +64,7 @@ function getCookie(name) {
 
 // Function to fetch Spotify data and log to the console
 async function fetchSpotifyData() {
+  console.log('Fetching Spotify data...');
   const accessToken = getCookie('accessToken');
 
   if (accessToken) {
@@ -67,6 +76,7 @@ async function fetchSpotifyData() {
 
     if (userDataResponse.ok) {
       const userData = await userDataResponse.json();
+      console.log('Spotify Data:', userData);
 
       // Save Spotify data to the backend
       saveSpotifyDataToBackend(userData);
@@ -77,6 +87,7 @@ async function fetchSpotifyData() {
     console.error('Access token not found.');
   }
 }
+
 // Function to save Spotify data to the backend
 async function saveSpotifyDataToBackend(userData) {
   try {
