@@ -10,6 +10,8 @@ async function handleAuthorizationCallback() {
   console.log('Handling authorization callback...');
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
+  const accessToken = await exchangeCodeForToken(code);
+  setAccessToken(accessToken);
 
   if (code) {
     console.log('Authorization code:', code);
@@ -62,13 +64,18 @@ function getCookie(name) {
 
 // ... (rest of your code remains the same)
 
+let accessToken; // Variable to store the access token
+
+// Function to set the access token
+function setAccessToken(token) {
+  accessToken = token;
+}
 
 
 
 // Function to fetch Spotify data and log to the console
 async function fetchSpotifyData() {
   console.log('Fetching Spotify data...');
-  const accessToken = getCookie('accessToken');
 
   if (accessToken) {
     const userDataResponse = await fetch('https://api.spotify.com/v1/me', {
@@ -90,7 +97,6 @@ async function fetchSpotifyData() {
     console.error('Access token not found.');
   }
 }
-
 // Function to save Spotify data to the backend
 async function saveSpotifyDataToBackend(userData) {
   try {
