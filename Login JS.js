@@ -10,16 +10,16 @@ async function handleAuthorizationCallback() {
   console.log('Handling authorization callback...');
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
-  console.log('Authorization code:', code);
 
   if (code) {
+    console.log('Authorization code:', code);
+
     // Exchange the authorization code for an access token
     const accessToken = await exchangeCodeForToken(code);
     console.log('Access token:', accessToken);
 
-    // Save access token and code to cookies
-    setCookie('accessToken', accessToken, 7); // Set the expiration time as needed
-    setCookie('authorizationCode', code, 7); // Set the expiration time as needed
+    // Save access token to cookies
+    setCookie('accessToken', accessToken);
 
     // Fetch user data and update the DOM
     fetchUserData(accessToken);
@@ -38,37 +38,24 @@ async function exchangeCodeForToken(code) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: redirectUrl,
-      client_id: clientId,
-    }),
+    body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUrl}&client_id=${clientId}`,
   });
 
   const data = await response.json();
   return data.access_token;
 }
 
-// Function to Set a Cookie
-function setCookie(name, value, days) {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  const expiresString = `expires=${expires.toUTCString()}`;
-  document.cookie = `${name}=${value};${expiresString};path=/`;
+// Function to set a cookie
+function setCookie(name, value) {
+  document.cookie = `${name}=${value}; path=/`;
 }
 
-// Function to Get a Cookie
+// Function to get a cookie
 function getCookie(name) {
-  const cookieArray = document.cookie.split(';');
-  for (const cookie of cookieArray) {
-    const [cookieName, cookieValue] = cookie.trim().split('=');
-    if (cookieName === name) {
-      return cookieValue;
-    }
-  }
-  return null;
+  const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return cookieValue ? cookieValue.pop() : null;
 }
+
 
 // ... (rest of your code remains the same)
 
