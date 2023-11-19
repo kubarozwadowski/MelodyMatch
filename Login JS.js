@@ -5,25 +5,6 @@ const scope = 'user-read-private user-read-email';
 const backendUrl = 'https://shimmering-shortbread-025f27.netlify.app/';
 const tokenExchangeEndpoint = 'https://accounts.spotify.com/api/token';
 
-// Function to generate a random code verifier
-function generateCodeVerifier() {
-  const codeVerifier = [...Array(128)].map(() => (~~(Math.random() * 36)).toString(36)).join('');
-  return codeVerifier;
-}
-
-// Function to derive a code challenge from the code verifier
-async function generateCodeChallenge(codeVerifier) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(codeVerifier);
-  const buffer = await crypto.subtle.digest('SHA-256', data);
-  const array = Array.from(new Uint8Array(buffer));
-  const codeChallenge = btoa(array.map(byte => String.fromCharCode(byte)).join(''))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-  return codeChallenge;
-}
-
 // Function to handle authorization callback
 async function handleAuthorizationCallback() {
   console.log('Handling authorization callback...');
@@ -32,15 +13,7 @@ async function handleAuthorizationCallback() {
 
   if (code) {
     console.log('Authorization code:', code);
-
-    // Verify the state (optional but recommended)
-    const state = urlParams.get('state');
-    // Check if the state matches what you sent in the authorization request
-
-    const codeVerifier = generateCodeVerifier();
-    const codeChallenge = await generateCodeChallenge(codeVerifier);
-
-    const _accessToken = await exchangeCodeForToken(code, codeVerifier);
+    const _accessToken = await exchangeCodeForToken(code);
     setAccessToken(_accessToken);
 
     // Exchange the authorization code for an access token
@@ -60,19 +33,18 @@ async function handleAuthorizationCallback() {
 }
 
 // Function to exchange the authorization code for an access token
-async function exchangeCodeForToken(code, codeVerifier) {
+async function exchangeCodeForToken(code) {
   const response = await fetch(tokenExchangeEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUrl}&client_id=${clientId}&code_verifier=${codeVerifier}`,
+    body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUrl}&client_id=${clientId}`,
   });
 
   const data = await response.json();
   return data.access_token;
 }
-
 
 // Function to set a cookie
 function setCookie(name, value, days) {
