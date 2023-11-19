@@ -8,9 +8,11 @@
   <!-- Adding CSS styles -->
   <style>
     body {
-      background-color: grey; /* Grey background */
-      color: black; /* Black text for better visibility on grey */
+      background-color: #333; /* Darker grey background */
+      color: black; /* Black text for better visibility */
       text-align: center; /* Center aligns all content in the body */
+      font-family: Arial, sans-serif; /* Minimalistic font */
+      padding-top: 50px; /* Moves content downwards */
     }
     .login-button {
       background-color: purple; /* Purple background */
@@ -20,6 +22,11 @@
       border: none; /* No border */
       cursor: pointer; /* Pointer cursor on hover */
       border-radius: 5px; /* Rounded corners */
+      margin-bottom: 20px; /* Space above the image */
+    }
+    .spotify-logo {
+      width: 100px; /* Adjust as needed */
+      height: auto; /* Maintain aspect ratio */
     }
   </style>
 </head>
@@ -27,5 +34,7 @@
   <p>Click the button to allow Spotify to login:</p>
   <!-- Add class to the button -->
   <button class="login-button" onclick="loginWithSpotifyClick()">Login with Spotify</button>
+  <!-- Spotify logo image -->
+  <img src="spotifyLogo.png" alt="Spotify Logo" class="spotify-logo">
 </body>
 </html>
