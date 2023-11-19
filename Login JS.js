@@ -73,4 +73,4 @@ function handleLoginCallback() {
   // Fetch additional user data (top genres, top artists, top tracks, and display name)
   fetchUserData();
 }
-
+handleLoginCallback();
