@@ -8,8 +8,22 @@ const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
 
 // Function to handle authorization callback
 async function handleAuthorizationCallback() {
+  console.log('Handling authorization callback...');
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
+
+  if (code) {
+    console.log('Authorization code:', code);
+    // Exchange the authorization code for an access token
+    const accessToken = await exchangeCodeForToken(code);
+    console.log('Access token:', accessToken);
+
+    // Now that you have the access token, fetch the user's data
+    fetchUserData(accessToken);
+  } else {
+    console.error('No authorization code found in the URL.');
+  }
+}
 
   // Exchange the authorization code for an access token
   const accessToken = await exchangeCodeForToken(code);
