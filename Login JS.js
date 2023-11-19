@@ -8,34 +8,23 @@ const tokenExchangeEndpoint = 'https://your-server.com/exchange-token';
 
 // Function to handle authorization callback
 async function handleAuthorizationCallback() {
-  console.log('Handling authorization callback...');
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code');
+  // ...
 
-  if (code) {
-    console.log('Authorization code:', code);
-    // Exchange the authorization code for an access token
-    const accessToken = await exchangeCodeForToken(code);
-    console.log('Access token:', accessToken);
+  // Fetch user data and update the DOM
+  const accessToken = await exchangeCodeForToken(code);
+  console.log('Access token:', accessToken);
 
-    // Save access token and code to cookie
-    setCookie('accessToken', accessToken, 7);
-    setCookie('authorizationCode', code, 7);
+  // Save access token and code to cookie
+  setCookie('accessToken', accessToken, 7);
+  setCookie('authorizationCode', code, 7);
 
-    // Fetch user data and update the DOM
-    fetchUserData(accessToken);
+  // Fetch user data and update the DOM
+  fetchUserData(accessToken);
 
-    /**
-    What you should do next:
-    - add a button to fetch Spotify data (make sure this works)
-    - in the same button, console.log the data from Spotify API
-    - call your backend and save the Spotify data to the backend
-    - finally, call the backend to get users and display user data
-    **/
-  } else {
-    console.error('No authorization code found in the URL.');
-  }
+  // Fetch additional Spotify data and save it to the backend
+  fetchSpotifyData();
 }
+
 
 // Function to exchange the authorization code for an access token
 async function exchangeCodeForToken(code) {
@@ -76,13 +65,18 @@ async function fetchSpotifyData() {
       },
     });
 
-    const userData = await userDataResponse.json();
-    console.log('Spotify Data:', userData);
+    if (userDataResponse.ok) {
+      const userData = await userDataResponse.json();
+
+      // Save Spotify data to the backend
+      saveSpotifyDataToBackend(userData);
+    } else {
+      console.error('Failed to fetch user data from Spotify API');
+    }
   } else {
     console.error('Access token not found.');
   }
 }
-
 // Function to save Spotify data to the backend
 async function saveSpotifyDataToBackend(userData) {
   try {
