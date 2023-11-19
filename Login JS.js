@@ -109,3 +109,5 @@ function handleLoginCallback() {
   // Handle the callback after successful login (e.g., token exchange)
   handleAuthorizationCallback();
 }
+function getData() {
+  fetch("localhost:8080");
