@@ -10,11 +10,11 @@ async function handleAuthorizationCallback() {
   console.log('Handling authorization callback...');
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
-  const accessToken = await exchangeCodeForToken(code);
-  setAccessToken(accessToken);
 
   if (code) {
     console.log('Authorization code:', code);
+    const accessToken = await exchangeCodeForToken(code);
+    setAccessToken(accessToken);
 
     // Exchange the authorization code for an access token
     const accessToken = await exchangeCodeForToken(code);
@@ -210,11 +210,9 @@ function updateList(listId, items) {
   });
 }
 
-// Assume that somewhere in your code, after successful login, you call handleAuthorizationCallback
-function handleLoginCallback() {
-  // Handle the callback after successful login (e.g., token exchange)
-  handleAuthorizationCallback();
-}
 function getData() {
   fetch(backendUrl);
 }
+
+// Call handleAuthorizationCallback on page load to check if there is a code in the url params
+handleAuthorizationCallback();
